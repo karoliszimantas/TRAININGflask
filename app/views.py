@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, make_response, jsonify
 
 
 @app.template_filter('custom_filter')
@@ -16,12 +16,37 @@ def about():
 
 @app.route("/sign_up", methods=['GET', 'POST'])
 def sig_up():
-
     if request.method == 'POST':
         req = request.form
-        print(req)
+    return render_template('public/templates/sign_up.html')
 
-    return render_template('public/templates/sign-up.html')
+@app.route('/profile/<username>')
+def profile(username):
+
+
+    return render_template('public/templates/profile.html')
+
+@app.route('/json', methods=['POST'])
+def json():
+
+    if request.is_json:
+        req = request.get_json()
+        response = {
+            "name":req.get("name")
+        }
+        res = make_response(jsonify(response), 200)
+
+        return res
+
+    else:
+        res = make_response(jsonify({"message":"No json received"}), 400)
+
+    return "no Json received", 400
+
+
+@app.route("/guestbook")
+def guestbook():
+    return render_template("public/templates/guestbook.html")
 
 @app.route("/jinja")
 def jinja():
