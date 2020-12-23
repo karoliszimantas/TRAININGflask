@@ -1,6 +1,6 @@
 from app import app
-from flask import render_template, request, redirect, make_response, jsonify
-
+from flask import render_template, request, redirect, make_response, jsonify, send_from_directory, abort
+import os
 
 @app.template_filter('custom_filter')
 def custom_filter(a):
@@ -8,6 +8,7 @@ def custom_filter(a):
 
 @app.route("/")
 def main():
+    print(f'Flask env is {app.config["ENV"]}')
     return render_template('public/templates/index.html')
 
 @app.route("/about")
@@ -22,9 +23,25 @@ def sig_up():
 
 @app.route('/profile/<username>')
 def profile(username):
-
-
     return render_template('public/templates/profile.html')
+
+app.config['IMAGE_UPLOADS'] = r"C:\Users\User\Desktop\python courses\draft\app\app\templates\static\img\uploads"
+
+@app.route('/upload-image', methods=['POST', 'GET'])
+def upload_image():
+
+    if request.method == "POST":
+        if request.files:
+            image=request.files["image"]
+            if image.filename == ""
+                print('Image must have a filename')
+                return redirect(request.url)
+            image.save(os.path.join(app.config['IMAGE_UPLOADS'], image.filename))
+            return redirect(request.url)
+
+    return render_template('public/templates/upload.html')
+
+@app.route('/get-image/<>')
 
 @app.route('/json', methods=['POST'])
 def json():
