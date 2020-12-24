@@ -65,22 +65,27 @@ def get_csv(csv):
         abort(404)
 
 
+@app.route('/cookie')
+def cookie():
+    res = make_response('Cookies')
+    res.set_cookie('key',
+                   value='value',
+                   max_age=20,
+                   path=request.path)
+    return res
+
+
 @app.route('/json', methods=['POST'])
 def json():
 
     if request.is_json:
         req = request.get_json()
-        response = {
-            "name":req.get("name")
-        }
+        response = {"name":req.get("name")}
         res = make_response(jsonify(response), 200)
-
         return res
-
     else:
         res = make_response(jsonify({"message":"No json received"}), 400)
-
-    return "no Json received", 400
+        return "no Json received", 400
 
 
 @app.route("/guestbook")
