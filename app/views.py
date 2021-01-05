@@ -34,21 +34,16 @@ app.config['IMAGE_UPLOADS'] = r"C:\Users\User\PycharmProjects\flask_training\app
 
 @app.route('/upload-image', methods=['POST', 'GET'])
 def upload_image():
-
     if request.method == "POST":
         if request.files:
-            image=request.files["image"]
-            if image.filename == "":
-                print('Image must have a filename')
-                return redirect(request.url)
+            image = request.files['image']
             image.save(os.path.join(app.config['IMAGE_UPLOADS'], image.filename))
             return redirect(request.url)
-
     return render_template('public/templates/upload.html')
 
 
-app.config['CLIENT_IMAGES'] = r'C:\Users\User\Desktop\python courses\draft\app\app\templates\static\client\img'
-app.config['CLIENT_CSV']= r'C:\Users\User\Desktop\python courses\draft\app\app\templates\static\client\csv'
+app.config['CLIENT_IMAGES'] = r'C:\Users\User\PycharmProjects\flask_training\app\templates\static\img'
+app.config['CLIENT_CSV']= r'C:\Users\User\PycharmProjects\flask_training\app\templates\static\client\csv'
 
 @app.route('/get-image/<picture>')
 def get_image(picture):
