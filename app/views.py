@@ -30,7 +30,7 @@ def profile(username):
     return render_template('public/templates/profile.html')
 
 
-app.config['IMAGE_UPLOADS'] = r"C:\Users\User\Desktop\python courses\draft\app\app\templates\static\img\uploads"
+app.config['IMAGE_UPLOADS'] = r"C:\Users\User\PycharmProjects\flask_training\app\app\templates\static\img\uploads"
 
 @app.route('/upload-image', methods=['POST', 'GET'])
 def upload_image():
